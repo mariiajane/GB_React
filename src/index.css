@@ -5,10 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  border-color: blueviolet;
 }
 
 .test {
   font-weight: light;
   border-color: blueviolet;
+  margin-left: 2;
+  margin-right: 2;
 }
