@@ -31,7 +31,7 @@ const FunctionComponent = ({ onClick }) => {
       // Добавляем задержку перед ответом робота
       const robotResponseTimeout = setTimeout(() => {
         const robotMessage = {
-          text: 'Спасибо за ваше сообщение. Я робот.',
+          text: 'Спасибо за ваше сообщение. Я робот созданный учеником GB.',
           author: 'robot',
         };
         setMessageList([...messageList, robotMessage]);
@@ -53,7 +53,7 @@ const FunctionComponent = ({ onClick }) => {
       </div>
       <div>
         <input type="text" value={inputText} onChange={handleInputChange} />
-        <button onClick={handleSendMessage}>Отправить</button>
+        <button onClick={handleSendMessage}>ОТПРАВИТЬ</button>
       </div>
     </div>
   );
