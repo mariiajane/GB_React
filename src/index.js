@@ -1,94 +1,73 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import { App } from './App';
+import { render } from '@testing-library/react';
+import { renderIntoDocument } from 'react-dom/test-utils';
 
-// const age = 12;
-// const obj = {name: "test" };
-// const arr2 = [1, 2, 3]
-// const films = [
-//   {title: "film 1", age: 2020},
-//   {title: "film 2", age: 2021},
-// ];
-// const Info = ({title}) => {
-//   return(
-// <div>
-//    <h1>Hello {title}</h1>
-//    <h2>age: {age}</h2>
-//    <h2> name: {obj.name}</h2>
-//    {arr2}
-// </div>
-// );
-// };
+const FunctionComponent = ({ onClick }) => {
 
-// const Films = () => {
-//   return (
-//   <div>
-//     <h2>Films:</h2>
-//     {films.map((film) => (
-//     <div>
-//      <h2>{film.title}</h2>
-//      <h2>{film.age}</h2>
-//      </div>
-//      ))}
-//      </div>
-//   );
-// };
+  const [messageList, setMessageList] = useState([])
+  const [inputText, setInputText] = useState('')
 
-// const FunctionComponent = ({ onClick }) => {
-//   return (
-//       <div className="testSlyle">
-//       <Info title="FunctionComponent" />
-//       <Films />
-//       <button onClick={() => onClick("FunctionComponent")}>click</button>
-//     </div>
-//     );
-// };
+  const handleInputChange = (e) => {
+    setInputText(e.target.value);
+  };
 
-// class ClassComponent extends React.Component {
-//   render() {
+  const handleSendMessage = () => {
+    if (inputText.trim() !== '') {
+      const newMessage = {
+        text: inputText,
+        author: 'user',
+      };
 
-//     const {onClick} = this.props
-//     return (
-//     <div className="testSlyle">
-//       <Info title="ClassComponent" />
-//       <Films />
-//       <button onClick={() => onClick("ClassComponent")}>click</button>
-//       </div>
-//       );
-//   }
-// }
+      setMessageList([...messageList, newMessage]);
+      setInputText('');
+    }
+  };
+  useEffect(() => {
+    const lastMessage = messageList.length > 0 ? messageList[messageList.length - 1] : null;
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//   <FunctionComponent 
-//   test= {{age: 12}}
-//   onClick={(target)=>{
-// console.log("click from: ", target)
-//   }}
-//   />
-//   <hr />
-//   <ClassComponent 
-//   test= {{age: 12}}
-//   onClick={(target)=>{
-//   console.log("click from: ", target)
-//         }}
-//   />
-//   </React.StrictMode>,
-// document.getElementById('root')
-// );
-const text = "Riders on the storm Into this house we're born Like a dog without a bone";
-const Msg = (
-<div className ='test'>
-  <h2>{text}</h2>
-</div>
-);
-const FunctionComponent = () => {
-  return Msg;
+    if (lastMessage && lastMessage.author === 'user') {
+      // Добавляем задержку перед ответом робота
+      const robotResponseTimeout = setTimeout(() => {
+        const robotMessage = {
+          text: 'Спасибо за ваше сообщение. Я робот.',
+          author: 'robot',
+        };
+        setMessageList([...messageList, robotMessage]);
+      }, 1500);
+
+      // Очищаем таймаут при размонтировании компонента или при следующем сообщении пользователя
+      return () => clearTimeout(robotResponseTimeout);
+    }
+  }, [messageList]);
+
+  return (
+    <div>
+      <div>
+        {messageList.map((message, index) => (
+          <div key={index} className={message.author === 'robot' ? 'robot-message' : 'user-message'}>
+            <strong>{message.author}: </strong>{message.text}
+          </div>
+        ))}
+      </div>
+      <div>
+        <input type="text" value={inputText} onChange={handleInputChange} />
+        <button onClick={handleSendMessage}>Отправить</button>
+      </div>
+    </div>
+  );
 };
- ReactDOM.render(
+const App = () => {
+  return(
+    <>
+    {<FunctionComponent/>}
+    </>
+  )
+}
+ReactDOM.render(
    <React.StrictMode>
-   <FunctionComponent />
+   <App/>
    </React.StrictMode>,
  document.getElementById('root')
  );
