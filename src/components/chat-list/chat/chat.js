@@ -1,6 +1,6 @@
 import { AccountCircle } from "@mui/icons-material";
-import {ListItem, ListItemText,  ListItemButton, Select} from "@mui/material";
-import { styled } from '@mui/system'; 
+import {ListItem, ListItemText,  ListItemButton} from "@mui/material";
+import {styled } from '@mui/system'; 
 import st from "./chat.module.css";
 
 //import { styled } from "styled-components";
@@ -17,14 +17,13 @@ import st from "./chat.module.css";
         },
      };
  });
-export function Chat({ title, onSelect, handleListItemClick }) {
+export function Chat({ title, Select }) {
     const classes = useStyles();
 
     return (
 <ListItemButton 
     className={`${classes.item} ${classes.item}`}
-    onClick={handleListItemClick}
-    selected={Select}
+    selected ={Select}  
     >
     <ListItem>
         <AccountCircle fontSize="large" className={st.icon}/>

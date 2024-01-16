@@ -7,7 +7,8 @@ export function Message({message}){
             >
             <h3>{message.autor}</h3>
             <p>{message.message}</p>
-            <p>{message.data}</p>
+            <p>date</p>
+            {/* <p>{message.data}</p> */}
             </div>
     );
 }

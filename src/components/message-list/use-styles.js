@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 export const useStyles = styled(() => {
     return{
         input: {
-            color: "#9a9fa1",
+            color: "#f5f6f6",
             padding: "15px 15px",
             fontSize:"15px",
         },
         icon: {
-            color: "#2b5278",
+            color: "#f5f6f6",
             cursor:"pointer",
         }
     };
