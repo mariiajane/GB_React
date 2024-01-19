@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef, useCallback} from 'react';
 import { Input, InputAdornment } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import {useStyles} from "./use-styles";
@@ -15,7 +15,7 @@ export const MessageList =() =>   {
         {
           autor: "Bot",
           message: "message 333",
-          data: "date",
+          data: new Date(),
         },
       ]
     });
@@ -27,26 +27,26 @@ export const MessageList =() =>   {
       }
     }, [MessageList]);
 
-    const sendMessge = () => {
-      if (value){
+    const sendMessge = useCallback((message, autor = "User") => {
+      if (message){
          setMessageList({
           ...MessageList,
           [roomID]:[
           ...(MessageList[roomID] ?? []),
           {
-            autor: "User", 
-           message: value,
+            autor, 
+           message,
            data: new Date(),
           }
          ]
         });
       setValue ("");
       }
-    };
+    }, [MessageList, roomID]);
 
     const handlePressInput = ({code}) =>{
         if (code === "Enter"){
-            sendMessge();
+            sendMessge(value);
         }
     };
     
@@ -56,25 +56,17 @@ export const MessageList =() =>   {
       let timerId = null;
   
       if (messages.length && lastMessage.autor === "User"){
+
+        //todo сделать функцию sendMessage
         timerId = setTimeout(() => {
-          setMessageList({
-            ...MessageList,
-            [roomID]:[
-            ...(MessageList[roomID] ?? []),
-            {
-              autor: "Bot",
-              message: "Hello From bot",
-              data: new Date(),
-            },
-          ]
-        });
+          sendMessge("Hello from Bot", "Bot")
         }, 500)
       }
   
         return () => {
           clearInterval(timerId);
         };
-      }, [MessageList, roomID])
+      }, [MessageList, roomID, sendMessge])
 
       const messages = MessageList[roomID] ?? [];
       return(
@@ -93,7 +85,7 @@ export const MessageList =() =>   {
             fullWidth
             endAdornment ={
                 <InputAdornment position='end'>
-                    {value && <Send className={styles.icon} onClick={sendMessge} />}
+                    {value && <Send className={styles.icon} onClick={() =>sendMessge(value)} />}
                 </InputAdornment>
             }
             />  

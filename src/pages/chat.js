@@ -1,4 +1,4 @@
-import { Routes, Route, useLinkClickHandler, useNavigate} from "react-router-dom";
+import { Routes, Route, useNavigate} from "react-router-dom";
 import {MessageList, Layout, ChatList} from "../components";
 import { useEffect } from "react";
 
@@ -15,8 +15,6 @@ return () => {
     document.removeEventListener("keydown", listener);
 }
     }, [navigate])
-
-
     return(
         <Routes>
             <Route path="/" element={<Layout 

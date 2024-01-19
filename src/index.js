@@ -1,28 +1,18 @@
 import React  from 'react';
-import { ReactDOM } from 'react-dom';
+import {Provider} from 'react-redux';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { createRoot } from 'react-dom/client';
-import {MessageList, Layout, ChatList, Header } from './components';
+import {Header } from './components';
 import {ProfilePage, ChatPage} from './pages';
-import {ThemeProvider } from 'styled-components';
-
-const Appl = () => {
-  return(
-    <>
-    <Layout 
-    messages={<MessageList/>} 
-    chats = {<ChatList/>}
-    header = {<Header/>}
-    />
-    </>
-  )
-}
+import {CustomThemeProvider} from './theme-context';
+import { store } from './store';
 const root = createRoot(document.getElementById('root'));
 
 // Render the app within the root
 root.render(
   <React.StrictMode>
-    {/*<ThemeProvider theme = {theme}>*/}
+    <Provider store={store}>
+    <CustomThemeProvider>
       <BrowserRouter>
       <Header/>
       <Routes>
@@ -32,6 +22,7 @@ root.render(
         <Route path="*" element={<h1>404 Page</h1>}/>
       </Routes>
       </BrowserRouter>
-    {/*</ThemeProvider>*/}
+    </CustomThemeProvider>
+    </Provider>
    </React.StrictMode>
 );
